@@ -1,82 +1,35 @@
-# Lightweight React Template for KAVIA
+# Alumni Management Frontend (Ocean Professional)
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A React JS frontend prototype for the Alumni Management System featuring:
+- Authentication (login/register), role-based routing
+- Dashboards for Student, Alumni, Admin, Placement Officer, Mentor
+- Workflows: Webinars, Mentorship, Job postings/applications
+- Reports page with basic aggregates
+- TailwindCSS styling in the Ocean Professional theme
+- In-memory/mock data only (no backend)
 
-## Features
+## Quick start
+1. Install dependencies
+   - npm install
+2. Start the dev server
+   - npm start
+3. Open http://localhost:3000
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+## TailwindCSS
+Tailwind is configured via tailwind.config.js and postcss.config.js. Classes are used directly in components.
 
-## Getting Started
+## Roles and quick accounts
+Use the Login page's quick buttons or these credentials (password: pass1234):
+- student@example.com
+- alumni@example.com
+- mentor@example.com
+- placement@example.com
+- admin@example.com
 
-In the project directory, you can run:
+## Structure
+- src/context/AuthContext.jsx — in-memory auth and session
+- src/context/DataContext.jsx — in-memory data and actions
+- src/components/layout/AppLayout.jsx — topbar + sidebar
+- src/pages/** — pages for auth, dashboard, features
 
-### `npm start`
-
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-### `npm test`
-
-Launches the test runner in interactive watch mode.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Customization
-
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
-
-### Components
-
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
-
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
-
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+No external APIs are called. All state is local to the browser.

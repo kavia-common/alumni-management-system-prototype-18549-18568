@@ -1,48 +1,106 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import "./index.css";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import Dashboard from "./pages/Dashboard";
+import Webinars from "./pages/webinars/Webinars";
+import Mentorship from "./pages/mentorship/Mentorship";
+import Jobs from "./pages/jobs/Jobs";
+import Reports from "./pages/reports/Reports";
+import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
+import AppLayout from "./components/layout/AppLayout";
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Protect routes by role(s). Redirects unauthorized users to login or dashboard.
+ */
+function ProtectedRoute({ children, roles }) {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  if (roles && roles.length > 0 && !roles.includes(user.role)) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+}
+
+/**
+ * PUBLIC_INTERFACE
+ * Main App component, sets up providers and routing.
+ */
 function App() {
-  const [theme, setTheme] = useState('light');
-
-  // Effect to apply theme to document element
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  // PUBLIC_INTERFACE
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute roles={["student", "alumni", "admin", "placement", "mentor"]}>
+                <AppLayout>
+                  <Dashboard />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/webinars"
+            element={
+              <ProtectedRoute roles={["student", "alumni", "admin", "mentor"]}>
+                <AppLayout>
+                  <Webinars />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mentorship"
+            element={
+              <ProtectedRoute roles={["student", "alumni", "mentor", "admin"]}>
+                <AppLayout>
+                  <Mentorship />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/jobs"
+            element={
+              <ProtectedRoute roles={["student", "alumni", "placement", "admin"]}>
+                <AppLayout>
+                  <Jobs />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute roles={["admin", "placement"]}>
+                <AppLayout>
+                  <Reports />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute roles={["student", "alumni", "admin", "placement", "mentor"]}>
+                <AppLayout>
+                  <Profile />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
